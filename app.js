@@ -23,7 +23,7 @@
   const finalMsg = document.getElementById('final-msg');
   const btnRestart = document.getElementById('btn-restart');
 
-  // Función para mezclar arreglos (Fisher-Yates)
+  // Función para barajar opciones y preguntas (Fisher-Yates)
   function shuffle(arr) {
     const array = [...arr];
     for (let i = array.length - 1; i > 0; i--) {
@@ -33,21 +33,16 @@
     return array;
   }
 
-  // Cargar preguntas (soporta window.PREGUNTAS para file:// y fetch para web)
+  // Cargar preguntas directamente desde preguntas.json
   async function loadQuestions() {
-    if (window.PREGUNTAS && Array.isArray(window.PREGUNTAS) && window.PREGUNTAS.length > 0) {
-      allQuestions = window.PREGUNTAS;
-      startQuiz();
-      return;
-    }
-
     try {
-      const res = await fetch('preguntas.json');
+      const res = await fetch('./preguntas.json');
+      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
       allQuestions = await res.json();
       startQuiz();
     } catch (err) {
-      questionText.textContent = 'Error al cargar las preguntas.';
-      console.error('Error cargando preguntas:', err);
+      questionText.textContent = 'Error al cargar las preguntas desde preguntas.json.';
+      console.error('Error:', err);
     }
   }
 
@@ -68,21 +63,18 @@
     const q = questions[currentIndex];
     const total = questions.length;
 
-    // Actualizar contadores y progreso
     qCounter.textContent = `Pregunta ${currentIndex + 1} de ${total}`;
     scoreCounter.textContent = `Aciertos: ${score}`;
     progressFill.style.width = `${((currentIndex) / total) * 100}%`;
 
-    // Texto de la pregunta
     questionText.textContent = q.pregunta;
 
-    // Limpiar opciones anteriores y ocultar explicación y botón
     optionsList.innerHTML = '';
     explanationBox.style.display = 'none';
     explanationBox.innerHTML = '';
     btnNext.style.display = 'none';
 
-    // Mezclar y renderizar opciones
+    // Mezclar opciones de respuesta
     const shuffledOptions = shuffle(q.opciones);
 
     shuffledOptions.forEach((optionText) => {
@@ -101,19 +93,17 @@
     const isCorrect = (selectedText === q.respuesta_correcta);
     const allOptionBtns = optionsList.querySelectorAll('.option-btn');
 
-    // Deshabilitar todos los botones para evitar doble clic
+    // Deshabilitar botones para evitar selecciones múltiples
     allOptionBtns.forEach(btn => btn.disabled = true);
 
     if (isCorrect) {
-      // Verde si está correcta
       selectedBtn.classList.add('correct');
       score++;
       scoreCounter.textContent = `Aciertos: ${score}`;
     } else {
-      // Rojo si está incorrecta
       selectedBtn.classList.add('incorrect');
 
-      // Marcar la respuesta correcta en verde para que el usuario aprenda
+      // Marcar la respuesta correcta en verde
       allOptionBtns.forEach(btn => {
         if (btn.textContent === q.respuesta_correcta) {
           btn.classList.add('correct');
@@ -121,16 +111,16 @@
       });
     }
 
-    // Mostrar explicación técnica
+    // Mostrar justificación técnica
     explanationBox.innerHTML = `<strong>Justificación:</strong> ${q.explicacion}`;
     explanationBox.style.display = 'block';
 
-    // Mostrar botón siguiente
+    // Mostrar botón para avanzar
     btnNext.textContent = (currentIndex === questions.length - 1) ? 'Ver Resultados' : 'Siguiente Pregunta';
     btnNext.style.display = 'block';
   }
 
-  // Avanzar a la siguiente pregunta o mostrar resultados
+  // Siguiente pregunta o resultados
   function handleNextQuestion() {
     currentIndex++;
     if (currentIndex < questions.length) {
@@ -140,7 +130,7 @@
     }
   }
 
-  // Pantalla de resultados
+  // Mostrar resultados finales
   function showResults() {
     quizCard.style.display = 'none';
     resultCard.style.display = 'block';
@@ -154,14 +144,12 @@
     } else if (pct >= 70) {
       finalMsg.textContent = `¡Buen trabajo! Aprobaste con un ${pct}%.`;
     } else {
-      finalMsg.textContent = `Obtuviste un ${pct}%. Te recomendamos repasar los conceptos e intentar de nuevo.`;
+      finalMsg.textContent = `Obtuviste un ${pct}%. Te recomendamos repasar e intentar de nuevo.`;
     }
   }
 
-  // Event Listeners
   btnNext.addEventListener('click', handleNextQuestion);
   btnRestart.addEventListener('click', startQuiz);
 
-  // Inicializar
   loadQuestions();
 })();
