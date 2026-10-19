@@ -1,0 +1,17 @@
+{
+  "name": "parcial2-seguridad-informatica-quiz",
+  "version": "1.0.0",
+  "description": "Simulador interactivo de 30 preguntas para el Parcial 2 de Seguridad Informática",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "ciberseguridad",
+    "quiz",
+    "parcial2",
+    "examen"
+  ],
+  "author": "",
+  "license": "ISC"
+}
