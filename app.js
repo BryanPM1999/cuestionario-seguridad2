@@ -33,15 +33,21 @@
     return array;
   }
 
-  // Cargar preguntas desde preguntas.json
+  // Cargar preguntas (soporta window.PREGUNTAS para file:// y fetch para web)
   async function loadQuestions() {
+    if (window.PREGUNTAS && Array.isArray(window.PREGUNTAS) && window.PREGUNTAS.length > 0) {
+      allQuestions = window.PREGUNTAS;
+      startQuiz();
+      return;
+    }
+
     try {
-      const res = await fetch('preguntas.json', { cache: 'no-cache' });
+      const res = await fetch('preguntas.json');
       allQuestions = await res.json();
       startQuiz();
     } catch (err) {
-      questionText.textContent = 'Error al cargar las preguntas. Revisa la conexión o el servidor.';
-      console.error(err);
+      questionText.textContent = 'Error al cargar las preguntas.';
+      console.error('Error cargando preguntas:', err);
     }
   }
 
