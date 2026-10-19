@@ -3,411 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulador de Examen - Parcial 2 Seguridad Informática</title>
-  <meta name="description" content="Simulador interactivo de evaluación para el Parcial 2 de Seguridad Informática: IA, Wi-Fi, Contenedores, Active Directory, Redes y Gobernanza.">
-  <meta name="theme-color" content="#070a12">
-  
-  <!-- Google Fonts Preconnect & Stylesheet -->
+  <title>Cuestionario - Seguridad Informática</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <div class="app-container">
-    
-    <!-- Top Header & Brand Bar -->
-    <header class="brand-bar" role="banner">
-      <div class="brand-title">
-        <div class="brand-icon" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-        </div>
-        <span>Practica</span>
-        <span class="brand-badge">Parcial 2</span>
+  <main class="quiz-wrapper">
+    <!-- Vista del Cuestionario -->
+    <div id="quiz-card" class="card">
+      <div class="quiz-header">
+        <span id="q-counter">Pregunta 1 de 30</span>
+        <span id="score-counter">Aciertos: 0</span>
       </div>
 
-      <div class="brand-actions">
-        <button id="btn-sound-toggle" class="icon-btn" type="button" title="Activar / Desactivar Sonido" aria-label="Alternar efectos de sonido">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-          </svg>
-        </button>
-      </div>
-    </header>
-
-    <!-- Global Loading / Error State -->
-    <div id="loading-state" class="glass-panel loading-card" style="display: none;">
-      <div class="spinner" aria-hidden="true"></div>
-      <h2 id="loading-title">Cargando...</h2>
-      <p id="loading-desc">Por favor espera un momento</p>
-    </div>
-
-    <!-- ====================================================================
-         SCREEN 1: SETUP & CONFIGURATION
-         ==================================================================== -->
-    <main id="screen-setup" class="screen glass-panel active">
-      <header class="hero-header">
-        <div class="hero-tag">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 14 14"></polyline>
-          </svg>
-          Banco Oficial de Evaluación
-        </div>
-        <h1 class="hero-title">Cuestionario Interactivo Parcial 2</h1>
-        <p class="hero-desc">
-          Entrenamiento riguroso sobre Seguridad Inalámbrica, Active Directory, Contenedores Docker, ZTNA, DevSecOps y Gobernanza de la Información.
-        </p>
-      </header>
-
-      <section class="setup-grid" aria-label="Configuración de la evaluación">
-        <!-- Mode selector card -->
-        <article class="setup-card">
-          <h2 class="setup-card-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-            </svg>
-            Modo de Evaluación
-          </h2>
-
-          <div class="mode-selector" role="radiogroup" aria-label="Cantidad de reactivos">
-            <!-- 30 Questions (Default) -->
-            <label class="mode-option active" data-mode="exam30">
-              <input type="radio" name="quiz-mode" value="exam30" checked>
-              <div class="mode-label-wrap">
-                <span class="mode-name">Examen Parcial (Recomendado)</span>
-                <span class="mode-desc">Selección aleatoria ponderada</span>
-              </div>
-              <span class="mode-pill">30 Preguntas</span>
-            </label>
-
-            <!-- 60 Questions Full Bank -->
-            <label class="mode-option" data-mode="all60">
-              <input type="radio" name="quiz-mode" value="all60">
-              <div class="mode-label-wrap">
-                <span class="mode-name">Banco Completo</span>
-                <span class="mode-desc">Cubre todos los reactivos disponibles</span>
-              </div>
-              <span class="mode-pill">60 Preguntas</span>
-            </label>
-
-            <!-- 15 Questions Quick Practice -->
-            <label class="mode-option" data-mode="quick15">
-              <input type="radio" name="quiz-mode" value="quick15">
-              <div class="mode-label-wrap">
-                <span class="mode-name">Práctica Rápida (Sprint)</span>
-                <span class="mode-desc">Ideal para repasos ágiles</span>
-              </div>
-              <span class="mode-pill">15 Preguntas</span>
-            </label>
-          </div>
-        </article>
-
-        <!-- Custom Settings card -->
-        <article class="setup-card">
-          <h2 class="setup-card-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-            Parámetros del Entorno
-          </h2>
-
-          <div class="toggle-list">
-            <div class="toggle-item">
-              <div>
-                <label for="chk-immediate-feedback" class="toggle-label">Modo Estudio Inmediato</label>
-                <span class="toggle-sub">Muestra respuesta y explicación técnica al instante</span>
-              </div>
-              <label class="switch">
-                <input type="checkbox" id="chk-immediate-feedback">
-                <span class="slider"></span>
-              </label>
-            </div>
-
-            <div class="toggle-item">
-              <div>
-                <label for="chk-shuffle-questions" class="toggle-label">Aleatorizar Preguntas</label>
-                <span class="toggle-sub">Orden dinámico en cada intento</span>
-              </div>
-              <label class="switch">
-                <input type="checkbox" id="chk-shuffle-questions" checked>
-                <span class="slider"></span>
-              </label>
-            </div>
-
-            <div class="toggle-item">
-              <div>
-                <label for="chk-shuffle-options" class="toggle-label">Aleatorizar Opciones</label>
-                <span class="toggle-sub">Mezcla las alternativas A, B, C y D</span>
-              </div>
-              <label class="switch">
-                <input type="checkbox" id="chk-shuffle-options" checked>
-                <span class="slider"></span>
-              </label>
-            </div>
-
-            <div class="toggle-item">
-              <div>
-                <label for="chk-timer" class="toggle-label">Temporizador Activo</label>
-                <span class="toggle-sub">1 minuto por reactivo con alerta visual</span>
-              </div>
-              <label class="switch">
-                <input type="checkbox" id="chk-timer" checked>
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <!-- CTA Action -->
-      <footer class="cta-wrap">
-        <button id="btn-start-quiz" class="primary-btn" type="button">
-          <span>Comenzar Cuestionario</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </button>
-
-        <div class="stats-bar">
-          <div>Banco Total: <strong id="total-available-badge">60</strong> reactivos</div>
-          <div>Formato: <strong>Opción Múltiple (4 alternativas)</strong></div>
-          <div>Atajos: <strong>Teclas 1-4, Enter, Flechas</strong></div>
-        </div>
-      </footer>
-    </main>
-
-    <!-- ====================================================================
-         SCREEN 2: ACTIVE EXAM ARENA
-         ==================================================================== -->
-    <main id="screen-quiz" class="screen glass-panel">
-      <!-- Top Status Bar -->
-      <header class="quiz-top-bar">
-        <div class="quiz-progress-info">
-          <div class="question-counter">
-            Pregunta <strong id="current-q-num">1</strong> de <span id="total-q-num">30</span>
-          </div>
-          <span id="category-tag" class="category-tag">Categoría</span>
-        </div>
-
-        <div class="quiz-tools">
-          <div id="timer-box" class="timer-box" aria-live="polite">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-            <span id="timer-text">30:00</span>
-          </div>
-
-          <button id="btn-flag" class="btn-flag" type="button" title="Marcar pregunta para revisar luego">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1v19"></path>
-            </svg>
-            Marcar
-          </button>
-        </div>
-      </header>
-
-      <!-- Progress Bar -->
-      <div class="progress-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div id="progress-bar" class="progress-fill"></div>
+      <div class="progress-bar">
+        <div id="progress-fill" class="progress-fill"></div>
       </div>
 
-      <!-- Question Text -->
-      <section class="question-content">
-        <h3 id="question-text" class="question-text">Cargando reactivo...</h3>
-        <div id="options-container" class="options-list" role="radiogroup" aria-label="Opciones de respuesta"></div>
+      <h2 id="question-text" class="question-text">Cargando pregunta...</h2>
 
-        <!-- Immediate Feedback Box -->
-        <aside id="feedback-box" class="feedback-box" aria-live="assertive">
-          <div id="feedback-header" class="feedback-header"></div>
-          <div id="feedback-explanation" class="feedback-explanation"></div>
-        </aside>
-      </section>
+      <div id="options-list" class="options-list"></div>
 
-      <!-- Bottom Controls -->
-      <footer class="quiz-controls">
-        <button id="btn-prev" class="secondary-btn" type="button" disabled>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-          Anterior
-        </button>
+      <div id="explanation-box" class="explanation-box" style="display: none;"></div>
 
-        <button id="btn-finish" class="secondary-btn finish-btn" type="button" style="display: none;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-          Finalizar Examen
-        </button>
-
-        <button id="btn-next" class="secondary-btn" type="button">
-          Siguiente
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </button>
-      </footer>
-
-      <!-- Navigation Palette -->
-      <section class="palette-section" aria-label="Navegación de preguntas">
-        <div class="palette-header">
-          <span class="palette-title">Mapa de Reactivos</span>
-          <div class="palette-legend">
-            <span class="legend-item"><span class="legend-dot answered"></span> Respondida</span>
-            <span class="legend-item"><span class="legend-dot unanswered"></span> Pendiente</span>
-            <span class="legend-item"><span class="legend-dot flagged"></span> Marcada</span>
-          </div>
-        </div>
-        <div id="palette-grid" class="palette-grid"></div>
-      </section>
-    </main>
-
-    <!-- ====================================================================
-         SCREEN 3: RESULTS & IN-DEPTH REVIEW
-         ==================================================================== -->
-    <main id="screen-results" class="screen glass-panel">
-      <header class="results-hero">
-        <div id="score-badge" class="score-badge passed">
-          Evaluación Finalizada
-        </div>
-
-        <div class="score-circle-wrap">
-          <svg class="score-svg" viewBox="0 0 160 160" aria-hidden="true">
-            <circle class="score-track" cx="80" cy="80" r="70"></circle>
-            <circle id="score-circle-fill" class="score-fill" cx="80" cy="80" r="70"
-                    stroke-dasharray="439.82" stroke-dashoffset="439.82"></circle>
-          </svg>
-          <div class="score-text-inside">
-            <span id="score-number" class="score-number">0/30</span>
-            <span id="score-pct" class="score-pct">0%</span>
-          </div>
-        </div>
-
-        <h2 id="results-headline" class="results-headline">¡Examen Completado!</h2>
-        <p id="results-sub" class="results-sub">Revisa tu desempeño detallado y analiza las justificaciones técnicas.</p>
-      </header>
-
-      <!-- Metrics Grid -->
-      <section class="summary-grid" aria-label="Métricas del intento">
-        <div class="summary-card">
-          <div id="val-correct" class="summary-val correct">0</div>
-          <div class="summary-lbl">Aciertos</div>
-        </div>
-        <div class="summary-card">
-          <div id="val-incorrect" class="summary-val incorrect">0</div>
-          <div class="summary-lbl">Errores</div>
-        </div>
-        <div class="summary-card">
-          <div id="val-skipped" class="summary-val">0</div>
-          <div class="summary-lbl">Omitidas</div>
-        </div>
-        <div class="summary-card">
-          <div id="val-time" class="summary-val">00:00</div>
-          <div class="summary-lbl">Tiempo Utilizado</div>
-        </div>
-      </section>
-
-      <!-- Category Performance Section -->
-      <section class="breakdown-section" aria-label="Rendimiento por área temática">
-        <h3 class="breakdown-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
-            <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-          </svg>
-          Dominio por Área Temática
-        </h3>
-        <div id="category-bars-container" class="category-bars"></div>
-      </section>
-
-      <!-- Quick Action Buttons -->
-      <div class="results-actions">
-        <button id="btn-retest-failed" class="secondary-btn finish-btn" type="button" style="display: none;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M23 4v6h-6"></path>
-            <path d="M1 20v-6h6"></path>
-            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-          </svg>
-          Reintentar Solo Falladas
-        </button>
-
-        <button id="btn-restart-exam" class="primary-btn" type="button">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <polyline points="23 4 23 10 17 10"></polyline>
-            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-          </svg>
-          Nuevo Examen (30 preguntas)
-        </button>
-
-        <button id="btn-print-results" class="secondary-btn" type="button" title="Exportar o imprimir a PDF">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <polyline points="6 9 6 2 18 2 18 9"></polyline>
-            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-            <rect x="6" y="14" width="12" height="8"></rect>
-          </svg>
-          Imprimir / Guardar PDF
-        </button>
-
-        <button id="btn-share-score" class="secondary-btn" type="button" title="Copiar resumen al portapapeles">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-          </svg>
-          Copiar Resumen
-        </button>
-      </div>
-
-      <!-- In-Depth Question Review Section -->
-      <section class="review-section" aria-label="Revisión de respuestas">
-        <div class="review-header-bar">
-          <h3 class="review-title">Revisión de Reactivos y Respuestas</h3>
-          <div class="filter-pills" role="toolbar" aria-label="Filtros de revisión">
-            <button class="filter-pill active" type="button" data-filter="all">Todas</button>
-            <button class="filter-pill" type="button" data-filter="incorrect">Incorrectas</button>
-            <button class="filter-pill" type="button" data-filter="correct">Correctas</button>
-            <button class="filter-pill" type="button" data-filter="skipped">Omitidas</button>
-            <button class="filter-pill" type="button" data-filter="flagged">Marcadas</button>
-          </div>
-        </div>
-
-        <div id="review-list" class="review-list"></div>
-      </section>
-    </main>
-
-  </div>
-
-  <!-- Modal Confirmation on Unanswered Questions -->
-  <div id="modal-finish" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-card">
-      <div class="modal-icon" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="12" y1="8" x2="12" y2="12"></line>
-          <line x1="12" y1="16" x2="12.01" y2="16"></line>
-        </svg>
-      </div>
-      <h3 id="modal-title" class="modal-title">¿Finalizar el Examen?</h3>
-      <p class="modal-desc">
-        Aún tienes <strong id="modal-unanswered-count">0</strong> reactivo(s) sin responder. Las preguntas no contestadas contarán como omitidas.
-      </p>
-      <div class="modal-actions">
-        <button id="modal-btn-cancel" class="secondary-btn" type="button">Volver al Examen</button>
-        <button id="modal-btn-confirm" class="primary-btn" type="button">Sí, Entregar</button>
+      <div class="quiz-footer">
+        <button id="btn-next" class="btn" style="display: none;">Siguiente Pregunta</button>
       </div>
     </div>
-  </div>
 
-  <!-- Single Application Script (fetches preguntas.json as single source of truth) -->
+    <!-- Vista de Resultados -->
+    <div id="result-card" class="card result-card" style="display: none;">
+      <h2>¡Cuestionario Completado!</h2>
+      <div class="final-score" id="final-score">0 / 30</div>
+      <p id="final-msg" class="final-msg"></p>
+      <button id="btn-restart" class="btn">Reiniciar (30 Nuevas)</button>
+    </div>
+  </main>
+
   <script src="app.js"></script>
 </body>
 </html>
